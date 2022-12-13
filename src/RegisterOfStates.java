@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class RegisterOfStates {
     public static final String DELIMITER = "\t";
-    private List<State> states = new ArrayList<>();
+    public List<State> states = new ArrayList<>();
 
     public void addState (State newState){
         states.add(newState);
@@ -42,7 +42,9 @@ public class RegisterOfStates {
         } catch (FileNotFoundException e) {
             throw new StateException("Nepodařilo se najít soubor "+filename+":"+e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new StateException("Nesprávný formát zadané hodnoty DPH (V případě desetinného čísla je nutno použít desetinnou tečku!) Číslo řádku: "+lineNumber+"\n"+e.getLocalizedMessage());
+            throw new StateException("Nesprávný formát zadané hodnoty DPH " +
+                    "(V případě desetinného čísla je nutno použít desetinnou tečku!) Číslo řádku: "+lineNumber+
+                    "\n"+e.getLocalizedMessage());
         }
     }
 

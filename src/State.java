@@ -1,11 +1,11 @@
 public class State {
     private String shortName;       // Zkratka státu
     private String name;            // Název státu
-    private double vatNormal;          // Plná sazba DPH v procentech
+    private Double vatNormal;          // Plná sazba DPH v procentech
     private double vatReduced;      // Snížená sazba DPH v procentech
     private boolean isSpecialVat;   // Je peciální sazba DPH?
 
-    public State(String shortName, String name, double vatNormal, double vatReduced, boolean isSpecialVat) {
+    public State(String shortName, String name, Double vatNormal, double vatReduced, boolean isSpecialVat) {
         this.shortName = shortName;
         this.name = name;
         this.vatNormal = vatNormal;
@@ -29,11 +29,11 @@ public class State {
         this.name = name;
     }
 
-    public double getVatNormal() {
+    public Double getVatNormal() {
         return vatNormal;
     }
 
-    public void setVatNormal(int vatNormal) {
+    public void setVatNormal(Double vatNormal) {
         this.vatNormal = vatNormal;
     }
 
@@ -55,6 +55,8 @@ public class State {
 
     @Override
     public String toString() {
-        return name+" ("+shortName+") : "+vatNormal+" %";
+        return name+" ("+shortName+") : \t"+vatNormal+" %";
     }
+
+
 }
