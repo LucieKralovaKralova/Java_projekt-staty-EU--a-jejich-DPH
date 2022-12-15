@@ -1,15 +1,11 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class RegisterOfStates {
     public static final String DELIMITER = "\t";
     public List<State> states = new ArrayList<>();
 
-    public void addState (State newState){
+    public void addState(State newState) {
         states.add(newState);
     }
 
@@ -24,13 +20,13 @@ public class RegisterOfStates {
         boolean isSpecialVat = false;
         State newState = null;
 
-        try (Scanner scanner = new Scanner(new BufferedReader(new FileReader(filename)))){
-            while (scanner.hasNextLine()){
+        try (Scanner scanner = new Scanner(new BufferedReader(new FileReader(filename)))) {
+            while (scanner.hasNextLine()) {
                 lineNumber++;
                 nextLine = scanner.nextLine();
                 items = nextLine.split(DELIMITER);
                 shortName = items[0];
-                name = items [1];
+                name = items[1];
                 //vatNormal = Integer.parseInt(items[2]);
                 //vatReduced = Integer.parseInt(items[3]);
                 vatNormal = Double.parseDouble(items[2]);
@@ -40,15 +36,31 @@ public class RegisterOfStates {
                 addState(newState);
             }
         } catch (FileNotFoundException e) {
-            throw new StateException("Nepodařilo se najít soubor "+filename+":"+e.getLocalizedMessage());
+            throw new StateException("Nepodařilo se najít soubor " + filename + ":" + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
             throw new StateException("Nesprávný formát zadané hodnoty DPH " +
-                    "(V případě desetinného čísla je nutno použít desetinnou tečku!) Číslo řádku: "+lineNumber+
-                    "\n"+e.getLocalizedMessage());
+                    "(V případě desetinného čísla je nutno použít desetinnou tečku!) Číslo řádku: " + lineNumber +
+                    "\n" + e.getLocalizedMessage());
         }
     }
 
     public List<State> getStates() {
         return new ArrayList<>(states);
     }
-}
+
+    public void writeStatesToFile(String filename, List<State> stateList, String outputLine) throws StateException {
+        // List<State> stateList = new ArrayList<>(states);
+        // Collections.sort(stateList, new VatNormalComparator().reversed());
+        //double limit = 20.0;
+        try (PrintWriter writer = new PrintWriter(new PrintWriter(filename))) {
+            for (State state : stateList) {
+                //if (state.getVatNormal() > limit) {
+                    writer.println(state.toStringOverLimit());
+              //  }
+            }
+            } catch (IOException e){
+                throw new StateException("Nastala chyba při zápisu do souboru: " + e.getLocalizedMessage());
+            }
+        }
+    }
+
