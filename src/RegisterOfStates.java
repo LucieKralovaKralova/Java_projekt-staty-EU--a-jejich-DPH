@@ -1,3 +1,5 @@
+import com.engeto.ifloop.Support;
+
 import java.io.*;
 import java.util.*;
 
@@ -48,19 +50,8 @@ public class RegisterOfStates {
         return new ArrayList<>(states);
     }
 
-    public void writeStatesToFile(String filename, List<State> stateList, String outputLine) throws StateException {
-        // List<State> stateList = new ArrayList<>(states);
-        // Collections.sort(stateList, new VatNormalComparator().reversed());
-        //double limit = 20.0;
-        try (PrintWriter writer = new PrintWriter(new PrintWriter(filename))) {
-            for (State state : stateList) {
-                //if (state.getVatNormal() > limit) {
-                    writer.println(state.toStringOverLimit());
-              //  }
-            }
-            } catch (IOException e){
-                throw new StateException("Nastala chyba při zápisu do souboru: " + e.getLocalizedMessage());
-            }
-        }
-    }
+
+}
+
+
 
