@@ -58,12 +58,5 @@ public class State {
         return name+" ("+shortName+") : \t"+vatNormal+" %";
     }
 
-    public String toStringOverLimit() {
-        return name+" ("+shortName+") : \t"+vatNormal+" % ("+vatReduced+")";
-    }
-
-    public String toStringUnderLimit() {
-        return shortName+", ";
-    }
 
 }

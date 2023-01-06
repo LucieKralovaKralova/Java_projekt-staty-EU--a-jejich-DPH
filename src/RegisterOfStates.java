@@ -50,8 +50,37 @@ public class RegisterOfStates {
         return new ArrayList<>(states);
     }
 
+    public void writeToFile (int limit) throws StateException {
+        List<State> statesList = getStates();
+    try (PrintWriter scannerWriter = new PrintWriter(new PrintWriter("vat-over-" + limit + ".txt"))) {
+        Collections.sort(statesList, new VatNormalComparator().reversed());
+        for (State state : statesList) {
+            if (state.getVatNormal() > limit && !state.isSpecialVat()) {
+                String outputLine = state + " (" + state.getVatReduced() + " %)";
+                System.out.println(outputLine);
+                scannerWriter.println(outputLine);
+            }
+        }
 
-}
+        System.out.println("========================================");
+        System.out.print("Sazba DPH "+limit+" % nebo nižší nebo používají speciální sazbu: ");
+        scannerWriter.println("========================================");
+        scannerWriter.print("Sazba DPH "+limit+" % nebo nižší nebo používají speciální sazbu: ");
+
+        for (State state : statesList) {
+            if (state.getVatNormal() <= limit || state.isSpecialVat()) {
+                String outputLine = state.getShortName() + ", ";
+                System.out.print(outputLine);
+                scannerWriter.print(outputLine);
+            }
+        }
+
+    } catch (IOException e) {
+        throw new StateException("Nastala chyba při zápisu do souboru: " + e.getLocalizedMessage());
+    }
+    }
+    }
+
 
 
 
