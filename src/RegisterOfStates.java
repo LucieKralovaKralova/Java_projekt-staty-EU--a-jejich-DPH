@@ -54,11 +54,14 @@ public class RegisterOfStates {
         List<State> statesList = getStates();
     try (PrintWriter scannerWriter = new PrintWriter(new PrintWriter("vat-over-" + limit + ".txt"))) {
         Collections.sort(statesList, new VatNormalComparator().reversed());
+        List<State> outOfList = new ArrayList<>();
         for (State state : statesList) {
             if (state.getVatNormal() > limit && !state.isSpecialVat()) {
                 String outputLine = state + " (" + state.getVatReduced() + " %)";
                 System.out.println(outputLine);
                 scannerWriter.println(outputLine);
+            } else {
+                outOfList.add(state);
             }
         }
 
@@ -67,12 +70,10 @@ public class RegisterOfStates {
         scannerWriter.println("========================================");
         scannerWriter.print("Sazba DPH "+limit+" % nebo nižší nebo používají speciální sazbu: ");
 
-        for (State state : statesList) {
-            if (state.getVatNormal() <= limit || state.isSpecialVat()) {
+        for (State state : outOfList) {
                 String outputLine = state.getShortName() + ", ";
                 System.out.print(outputLine);
                 scannerWriter.print(outputLine);
-            }
         }
 
     } catch (IOException e) {
